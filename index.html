@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Just Beauty — Hair, Spa &amp; Laundry, Maitland Cape Town</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FBF2E7;
+    --peach: #F4E1CC;
+    --dark: #1C120C;
+    --ink: #2A1D14;
+    --rose: #BE5B52;
+    --rose-deep: #A64B44;
+    --gold: #D8B26B;
+    --line: rgba(42,29,20,0.12);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.logo{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+
+  em{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-weight:500;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  img{display:block; width:100%; height:100%; object-fit:cover;}
+  ul{list-style:none;}
+
+  .icon{
+    width:1em; height:1em;
+    flex-shrink:0;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    font-weight:600;
+    color:var(--rose);
+    display:flex;
+    align-items:center;
+    gap:0.65em;
+  }
+  .eyebrow .icon{width:15px; height:15px;}
+  .eyebrow.on-dark{color:var(--gold);}
+  .eyebrow.on-rose{color:var(--gold);}
+
+  .btn{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:0.6em;
+    padding:0.95em 2.1em;
+    border-radius:999px;
+    font-size:0.82rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    font-weight:600;
+    transition:transform 0.3s cubic-bezier(.22,1,.36,1), background 0.25s ease, color 0.25s ease, border-color .25s ease, box-shadow .3s ease;
+  }
+  .btn .icon{width:14px; height:14px; transition:transform .3s ease;}
+  .btn:hover .icon{transform:translateX(3px);}
+
+  .btn-solid{background:var(--rose); color:#fff; box-shadow:0 8px 24px -10px rgba(190,91,82,0.6);}
+  .btn-solid:hover{background:var(--rose-deep); transform:translateY(-2px); box-shadow:0 12px 28px -8px rgba(190,91,82,0.55);}
+
+  .btn-outline{border:1px solid rgba(255,255,255,0.6); color:#fff;}
+  .btn-outline:hover{background:rgba(255,255,255,0.12); transform:translateY(-2px); border-color:#fff;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 40px;}
+
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1);}
+  .reveal.in{opacity:1; transform:none;}
+  .reveal-delay-1{transition-delay:.12s;}
+  .reveal-delay-2{transition-delay:.24s;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:28px 0 0;
+    transition:padding .35s ease, background .35s ease, backdrop-filter .35s ease, box-shadow .35s ease;
+  }
+  header.scrolled{
+    padding:14px 0;
+    background:rgba(23,15,10,0.86);
+    backdrop-filter:blur(14px);
+    box-shadow:0 8px 30px -12px rgba(0,0,0,0.5);
+  }
+  .nav-inner{max-width:1180px; margin:0 auto; padding:0 40px; display:flex; align-items:center; justify-content:space-between;}
+  .logo{color:#fff; font-size:1.5rem; line-height:1;}
+  .logo span{display:block; font-family:'Inter', sans-serif; font-weight:600; font-size:0.6rem; letter-spacing:0.32em; color:var(--gold); margin-top:6px;}
+  nav.links{display:flex; gap:2.6rem;}
+  nav.links a{color:#fff; font-size:0.78rem; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; opacity:0.92; position:relative; padding-bottom:4px;}
+  nav.links a::after{content:''; position:absolute; left:0; right:0; bottom:-2px; height:1px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .3s ease;}
+  nav.links a:hover::after{transform:scaleX(1);}
+
+  .menu-toggle{display:none; flex-direction:column; gap:5px; background:none; border:0; cursor:pointer; z-index:110; padding:6px;}
+  .menu-toggle span{width:26px; height:2px; background:#fff; display:block; transition:transform .3s ease, opacity .3s ease;}
+  .menu-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-toggle.active span:nth-child(2){opacity:0;}
+  .menu-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative; min-height:100vh; display:flex; align-items:flex-end; color:#fff; overflow:hidden;}
+  .hero img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%; filter:saturate(1.05); transform:scale(1.06); animation:heroZoom 16s ease-out forwards;}
+  @keyframes heroZoom{to{transform:scale(1);}}
+  .hero::before{content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,12,7,0.35) 0%, rgba(20,12,7,0.25) 35%, rgba(15,9,6,0.8) 100%);}
+  .hero-content{position:relative; z-index:2; width:100%; padding:0 40px 90px; max-width:1180px; margin:0 auto; text-align:center;}
+  .hero .eyebrow{justify-content:center; color:var(--gold); margin-bottom:28px;}
+  .hero h1{font-size:clamp(2.4rem, 6vw, 4.6rem); margin-bottom:26px;}
+  .hero p.lede{max-width:560px; margin:0 auto 40px; font-size:1.05rem; line-height:1.6; color:rgba(255,255,255,0.88);}
+  .hero-buttons{display:flex; gap:18px; justify-content:center; flex-wrap:wrap;}
+
+  .scroll-cue{
+    position:absolute; left:50%; bottom:28px; transform:translateX(-50%);
+    z-index:2; width:22px; height:34px; border:1px solid rgba(255,255,255,0.55); border-radius:12px;
+    display:flex; justify-content:center; padding-top:6px;
+  }
+  .scroll-cue::before{content:''; width:3px; height:7px; border-radius:2px; background:var(--gold); animation:cueDrop 2s ease-in-out infinite;}
+  @keyframes cueDrop{0%{opacity:1; transform:translateY(0);} 70%{opacity:0;} 100%{opacity:0; transform:translateY(10px);}}
+
+  /* ---------- INTRO ---------- */
+  .intro{padding:130px 0 90px; text-align:center;}
+  .intro .eyebrow{justify-content:center; margin-bottom:22px;}
+  .intro h2{font-size:clamp(1.9rem, 3.6vw, 2.7rem); max-width:780px; margin:0 auto 26px;}
+  .intro p{max-width:640px; margin:0 auto; font-size:1.05rem; line-height:1.75; color:#5a4a3c;}
+
+  .ornament{display:flex; align-items:center; justify-content:center; gap:14px; margin:0 auto 26px;}
+  .ornament .stem{width:44px; height:1px; background:var(--line);}
+  .ornament .icon{width:16px; height:16px; color:var(--gold);}
+
+  /* ---------- SPLIT SECTIONS ---------- */
+  .split{display:grid; grid-template-columns:1fr 1fr; min-height:640px;}
+  .split.reverse .split-media{order:2;}
+  .split.reverse .split-copy{order:1;}
+  .split-media{position:relative; overflow:hidden;}
+  .split-media img{transition:transform 1s cubic-bezier(.22,1,.36,1);}
+  .split-media:hover img{transform:scale(1.045);}
+  .split-media::after{
+    content:''; position:absolute; inset:0;
+    box-shadow:inset 0 0 90px rgba(0,0,0,0.18);
+    pointer-events:none;
+  }
+  .split-copy{background:var(--peach); display:flex; flex-direction:column; justify-content:center; padding:80px 70px;}
+  .split-copy h3{font-size:clamp(1.8rem, 3vw, 2.5rem); margin:18px 0 22px;}
+  .split-copy > p.desc{color:#5a4a3c; line-height:1.7; margin-bottom:30px; max-width:440px;}
+
+  .price-list{border-top:1px solid var(--line);}
+  .price-row{display:flex; justify-content:space-between; align-items:baseline; padding:15px 0; border-bottom:1px solid var(--line); font-size:0.98rem; transition:padding-left .25s ease;}
+  .price-row:hover{padding-left:6px;}
+  .price-row .name{color:var(--ink); font-weight:500;}
+  .price-row .price{color:var(--rose); font-weight:600; white-space:nowrap; margin-left:20px;}
+  .price-note{margin-top:22px; font-size:0.82rem; color:#8a7a6b; line-height:1.6;}
+  .price-note b{color:var(--ink);}
+  .split-copy .btn{margin-top:32px; align-self:flex-start;}
+
+  .badge{
+    position:absolute; left:24px; bottom:24px;
+    background:rgba(28,18,12,0.55);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.18);
+    color:#fff; padding:16px 24px; border-radius:6px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .badge .badge-icon{
+    width:34px; height:34px; border-radius:50%;
+    background:var(--rose); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .badge .badge-icon .icon{width:16px; height:16px; color:#fff;}
+  .badge .eyebrow{color:var(--gold); margin-bottom:4px;}
+  .badge strong{font-family:'Playfair Display', serif; font-size:1.25rem; font-weight:600; display:block;}
+
+  /* ---------- IN STORE (dark) ---------- */
+  .instore{background:var(--dark); color:#fff; padding:120px 0; position:relative; overflow:hidden;}
+  .instore::before{
+    content:''; position:absolute; top:-140px; right:-140px; width:400px; height:400px;
+    border-radius:50%; background:radial-gradient(circle, rgba(216,178,107,0.10), transparent 70%);
+  }
+  .instore .wrap{position:relative;}
+  .instore .eyebrow{margin-bottom:22px;}
+  .instore h2{font-size:clamp(2rem, 4vw, 2.9rem); max-width:640px; margin-bottom:52px;}
+  .instore-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-bottom:36px;}
+  .instore-card{
+    border:1px solid rgba(255,255,255,0.14); border-radius:10px; padding:26px 24px;
+    display:flex; align-items:center; gap:16px; font-size:1rem; font-weight:500;
+    transition:border-color .3s ease, background .3s ease, transform .3s ease;
+  }
+  .instore-card:hover{border-color:var(--gold); background:rgba(216,178,107,0.06); transform:translateY(-3px);}
+  .instore-card .icon-circle{
+    width:38px; height:38px; border-radius:50%; background:rgba(216,178,107,0.14);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .instore-card .icon-circle .icon{width:18px; height:18px; color:var(--gold);}
+  .instore-note{color:rgba(255,255,255,0.55); font-size:0.88rem; max-width:600px;}
+
+  /* ---------- VISIT ---------- */
+  .visit{background:var(--rose); color:#fff; padding:110px 0 90px;}
+  .visit-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px;}
+  .visit .eyebrow{color:rgba(255,255,255,0.75); margin-bottom:22px;}
+  .visit h2{font-size:clamp(2rem, 4vw, 2.9rem); margin-bottom:34px; max-width:460px;}
+  .visit-detail{display:flex; gap:16px; margin-bottom:18px; font-size:1rem; line-height:1.6; color:rgba(255,255,255,0.94);}
+  .visit-detail .ic-circle{
+    width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.14);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+  }
+  .visit-detail .ic-circle .icon{width:15px; height:15px; color:var(--gold);}
+  .hours-title{display:flex; align-items:center; gap:10px; font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase; font-weight:600; color:var(--gold); margin-bottom:22px;}
+  .hours-row{display:flex; justify-content:space-between; padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.22); font-size:0.98rem;}
+  .hours-row .day{font-weight:500;}
+  .hours-row .time{color:var(--gold); font-weight:600;}
+  .hours-row.today{color:#fff;}
+  .hours-row.today .day::after{content:'· today'; color:var(--gold); font-size:0.72rem; margin-left:8px; font-weight:600; letter-spacing:0.04em;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--dark); color:rgba(255,255,255,0.7); text-align:center; padding:52px 0 40px;}
+  footer .logo{font-size:1.4rem; color:#fff; margin-bottom:10px;}
+  footer p{font-size:0.8rem; letter-spacing:0.03em; color:rgba(255,255,255,0.5);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 880px){
+    .wrap, .nav-inner{padding:0 24px;}
+    nav.links{
+      position:fixed; inset:0; background:var(--dark);
+      flex-direction:column; align-items:center; justify-content:center; gap:2.2rem;
+      transform:translateX(100%); transition:transform .35s ease;
+    }
+    nav.links.open{transform:translateX(0);}
+    nav.links a{font-size:1rem;}
+    .menu-toggle{display:flex;}
+    .split, .visit-grid{grid-template-columns:1fr;}
+    .split-media{min-height:340px;}
+    .split-copy{padding:60px 28px;}
+    .instore-grid{grid-template-columns:1fr 1fr;}
+    .hero-content{padding:0 24px 70px;}
+    .intro{padding:100px 0 70px;}
+  }
+  @media (max-width: 540px){
+    .instore-grid{grid-template-columns:1fr;}
+    .hero-buttons{flex-direction:column; width:100%;}
+    .hero-buttons .btn{width:100%; justify-content:center;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .hero img{animation:none;}
+    .scroll-cue::before{animation:none;}
+    *{transition:none !important;}
+    .reveal{opacity:1; transform:none;}
+  }
+
+  /* ---------- WHATSAPP BUTTON ---------- */
+  .whatsapp-float{
+    position:fixed; bottom:30px; right:30px; z-index:1000;
+    width:60px; height:60px; border-radius:50%;
+    background:#25D366; color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 20px rgba(37,211,102,0.4);
+    transition:transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .whatsapp-float:hover{
+    transform:scale(1.1);
+    box-shadow:0 6px 28px rgba(37,211,102,0.5);
+  }
+  .whatsapp-float .icon{width:32px; height:32px; fill:#fff; stroke:none;}
+
+  /* ---------- CONTACT FORM ---------- */
+  .contact{background:var(--cream); padding:110px 0 90px;}
+  .contact .wrap{max-width:800px;}
+  .contact .eyebrow{margin-bottom:22px;}
+  .contact h2{font-size:clamp(2rem, 4vw, 2.9rem); margin-bottom:34px; max-width:500px;}
+  .contact-form{
+    background:#fff; border-radius:12px; padding:40px;
+    box-shadow:0 4px 24px rgba(0,0,0,0.06);
+  }
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;}
+  .form-group{margin-bottom:20px;}
+  .form-group.full{grid-column:1 / -1;}
+  .form-group label{
+    display:block; font-size:0.85rem; font-weight:600;
+    color:var(--ink); margin-bottom:8px; letter-spacing:0.05em;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select{
+    width:100%; padding:14px 16px;
+    border:1px solid rgba(42,29,20,0.15); border-radius:8px;
+    font-family:'Inter', sans-serif; font-size:0.95rem;
+    color:var(--ink); background:var(--cream);
+    transition:border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus{
+    outline:none; border-color:var(--rose);
+    box-shadow:0 0 0 3px rgba(190,91,82,0.1);
+  }
+  .form-group textarea{min-height:120px; resize:vertical;}
+  .form-submit{text-align:center; margin-top:10px;}
+  .form-submit .btn{min-width:200px; justify-content:center;}
+  .form-message{
+    margin-top:20px; padding:16px; border-radius:8px;
+    font-size:0.9rem; text-align:center; display:none;
+  }
+  .form-message.success{
+    display:block; background:rgba(34,197,94,0.1);
+    color:#16a34a; border:1px solid rgba(34,197,94,0.2);
+  }
+  .form-message.error{
+    display:block; background:rgba(239,68,68,0.1);
+    color:#dc2626; border:1px solid rgba(239,68,68,0.2);
+  }
+
+  @media (max-width: 640px){
+    .form-row{grid-template-columns:1fr;}
+    .contact-form{padding:28px 20px;}
+    .whatsapp-float{width:50px; height:50px; bottom:20px; right:20px;}
+    .whatsapp-float .icon{width:26px; height:26px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Icon sprite sheet (hidden, referenced via <use>) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.6L19.4 10l-5.6 1.8L12 17.4l-1.8-5.6L4.6 10l5.6-1.4L12 3z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M8 4l4 2 4-2 4 4-3 3v9H7v-9L4 8l4-4z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3h3l1.5 4.5L8.5 9.5a12 12 0 0 0 6 6l2-2L21 15v3a2 2 0 0 1-2 2C11 20 4 13 4 5a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-wig" viewBox="0 0 24 24"><path d="M5 12c0-4.5 3-8 7-8s7 3.5 7 8v6a2 2 0 0 1-2 2h-1v-5m-8 5h-1a2 2 0 0 1-2-2v-6z"/><path d="M9 15v5"/></symbol>
+    <symbol id="i-thread" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="4"/><path d="M8 7c2 1 6 1 8 0M8 12c2 1 6 1 8 0M8 17c2 1 6 1 8 0"/></symbol>
+    <symbol id="i-bottle" viewBox="0 0 24 24"><path d="M10 2h4v3.5l2 2V21a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V7.5l2-2V2z"/><path d="M9 11h6"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 7 6 11.5a6 6 0 0 1-12 0C6 10 12 3 12 3z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c8-1 13-6 14-14-8 1-13 6-14 14z"/><path d="M5 19c3-5 6-8 10-10"/></symbol>
+    <symbol id="i-nail" viewBox="0 0 24 24"><path d="M9 2h6l1 3-2 1v9a4 4 0 0 1-8 0V6L4 5l1-3h4z"/><path d="M8 6h8"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></symbol>
+  </defs>
+</svg>
+
+<header id="siteHeader">
+  <div class="nav-inner">
+    <a href="#top" class="logo">Just Beauty<span>CAPE TOWN</span></a>
+    <nav class="links" id="navLinks">
+      <a href="#hair">Hair</a>
+      <a href="#spa">Spa</a>
+      <a href="#laundry">Laundry</a>
+      <a href="#visit">Visit</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <img src="hero-salon.jpg" alt="Just Beauty salon interior with chandeliers and styling chairs">
+  <div class="hero-content">
+    <div class="eyebrow"><svg class="icon"><use href="#i-sparkle"/></svg>Hair &middot; Spa &middot; Laundry</div>
+    <h1>Beauty, care <em>&amp; calm</em><br>under one roof.</h1>
+    <p class="lede">A unisex hair salon, spa and laundry — serving Maitland, Cape Town with warmth and precision.</p>
+    <div class="hero-buttons">
+      <a href="#hair" class="btn btn-solid">View Services <svg class="icon"><use href="#i-arrow"/></svg></a>
+      <a href="#visit" class="btn btn-outline">Visit Us</a>
+    </div>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<section class="intro">
+  <div class="wrap">
+    <div class="ornament"><span class="stem"></span><svg class="icon"><use href="#i-sparkle"/></svg><span class="stem"></span></div>
+    <div class="eyebrow reveal" style="justify-content:center">Our House</div>
+    <h2 class="reveal reveal-delay-1">Where a fresh look meets a fresh basket of linen.</h2>
+    <p class="reveal reveal-delay-2">Just Beauty is a small, family-run studio in the heart of Maitland. We braid, twist, relax and lock hair; we knead tired shoulders; and we return your laundry pressed and folded — because looking after yourself shouldn't be a chore.</p>
+  </div>
+</section>
+
+<section class="split" id="hair">
+  <div class="split-media reveal">
+    <img src="hero-salon.jpg" alt="Styling chairs and mirrors at Just Beauty">
+    <div class="badge">
+      <div class="badge-icon"><svg class="icon"><use href="#i-scissors"/></svg></div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:2px">Signature</div>
+        <strong>Boho Braids</strong>
+      </div>
+    </div>
+  </div>
+  <div class="split-copy reveal">
+    <div class="eyebrow"><svg class="icon"><use href="#i-scissors"/></svg>Hairdressing</div>
+    <h3>Braids, twists, locs &amp; every finish in between.</h3>
+    <div class="price-list">
+      <div class="price-row"><span class="name">Wash / Dry</span><span class="price">from R100</span></div>
+      <div class="price-row"><span class="name">Lines</span><span class="price">R150</span></div>
+      <div class="price-row"><span class="name">Relaxer (Dark &amp; Lovely)</span><span class="price">R250</span></div>
+      <div class="price-row"><span class="name">Relaxer (Soft &amp; Free)</span><span class="price">R200</span></div>
+      <div class="price-row"><span class="name">Straight Back</span><span class="price">R300</span></div>
+      <div class="price-row"><span class="name">Straight Up</span><span class="price">R350</span></div>
+      <div class="price-row"><span class="name">Short Braid *</span><span class="price">from R400</span></div>
+      <div class="price-row"><span class="name">Long Braid *</span><span class="price">from R500</span></div>
+      <div class="price-row"><span class="name">Short Twist</span><span class="price">from R450</span></div>
+      <div class="price-row"><span class="name">Long Twist</span><span class="price">from R500</span></div>
+      <div class="price-row"><span class="name">Boho Braid — Short</span><span class="price">R400</span></div>
+      <div class="price-row"><span class="name">Boho Braid — Long</span><span class="price">R500</span></div>
+      <div class="price-row"><span class="name">Crochet</span><span class="price">R300</span></div>
+      <div class="price-row"><span class="name">Pony Tail</span><span class="price">R250</span></div>
+      <div class="price-row"><span class="name">Treatment</span><span class="price">R300</span></div>
+      <div class="price-row"><span class="name">Wig Installation</span><span class="price">from R200</span></div>
+      <div class="price-row"><span class="name">Dreadlocks</span><span class="price">from R500</span></div>
+    </div>
+    <p class="price-note">* Fibre not included on braids.</p>
+  </div>
+</section>
+
+<section class="split reverse" id="spa">
+  <div class="split-media reveal">
+    <img src="massage.jpg" alt="Full body massage in candle-lit treatment room">
+  </div>
+  <div class="split-copy reveal">
+    <div class="eyebrow"><svg class="icon"><use href="#i-sparkle"/></svg>Spa &amp; Massage</div>
+    <h3>Exhale. You've arrived.</h3>
+    <p class="desc">Slip away for a full-body massage in our candle-lit treatment room. Choose relaxing, deep tissue or a quick back &amp; shoulders revive — perfect while your laundry runs or your braids set.</p>
+    <div class="price-list">
+      <div class="price-row"><span class="name">Pedicure &amp; Manicure</span><span class="price">from R300</span></div>
+      <div class="price-row"><span class="name">Foot &amp; Leg Massage</span><span class="price">from R300</span></div>
+      <div class="price-row"><span class="name">Back Massage (30–45 min)</span><span class="price">R350</span></div>
+      <div class="price-row"><span class="name">Full Body Massage (45 min)</span><span class="price">from R450</span></div>
+    </div>
+    <p class="price-note"><b>Spa treatments</b> by appointment only — Fridays &amp; Saturdays.</p>
+    <a href="#visit" class="btn btn-solid">Book a Session <svg class="icon"><use href="#i-arrow"/></svg></a>
+  </div>
+</section>
+
+<section class="instore">
+  <div class="wrap">
+    <div class="eyebrow on-dark reveal"><svg class="icon"><use href="#i-bag"/></svg>In Store</div>
+    <h2 class="reveal reveal-delay-1">Wigs, fibres &amp; everything for your hair and nails.</h2>
+    <div class="instore-grid">
+      <div class="instore-card reveal"><span class="icon-circle"><svg class="icon"><use href="#i-wig"/></svg></span>Wigs</div>
+      <div class="instore-card reveal reveal-delay-1"><span class="icon-circle"><svg class="icon"><use href="#i-thread"/></svg></span>Fibres — all kinds</div>
+      <div class="instore-card reveal reveal-delay-2"><span class="icon-circle"><svg class="icon"><use href="#i-bottle"/></svg></span>Hair products</div>
+      <div class="instore-card reveal"><span class="icon-circle"><svg class="icon"><use href="#i-drop"/></svg></span>Botox treatments</div>
+      <div class="instore-card reveal reveal-delay-1"><span class="icon-circle"><svg class="icon"><use href="#i-leaf"/></svg></span>Keratin treatments</div>
+      <div class="instore-card reveal reveal-delay-2"><span class="icon-circle"><svg class="icon"><use href="#i-nail"/></svg></span>Nail services</div>
+    </div>
+    <p class="instore-note reveal">Ask in-store for current pricing on wigs, fibre packs, Botox, keratin and nail sets.</p>
+  </div>
+</section>
+
+<section class="split" id="laundry">
+  <div class="split-media reveal">
+    <img src="laundry.jpg" alt="Neatly folded stack of washed linen and clothing">
+  </div>
+  <div class="split-copy reveal">
+    <div class="eyebrow"><svg class="icon"><use href="#i-shirt"/></svg>Laundry</div>
+    <h3>Washed, pressed, folded — ready.</h3>
+    <div class="price-list">
+      <div class="price-row"><span class="name">Wash &amp; Dry</span><span class="price">R30 / kilo</span></div>
+      <div class="price-row"><span class="name">Ironing</span><span class="price">R30 / shirt</span></div>
+      <div class="price-row"><span class="name">Dry Cleaning</span><span class="price">from R250</span></div>
+      <div class="price-row"><span class="name">Blankets</span><span class="price">from R250</span></div>
+    </div>
+    <p class="price-note">Drop-off welcome during business hours. Same-week turnaround on most orders.</p>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="visit-grid">
+      <div class="reveal">
+        <div class="eyebrow on-rose"><svg class="icon"><use href="#i-pin"/></svg>Visit</div>
+        <h2>Come through — we'll put the kettle on.</h2>
+        <div class="visit-detail">
+          <span class="ic-circle"><svg class="icon"><use href="#i-pin"/></svg></span>
+          <span>173 Voortrekker Rd,<br>Maitland, Cape Town, 7405<br>South Africa</span>
+        </div>
+        <div class="visit-detail">
+          <span class="ic-circle"><svg class="icon"><use href="#i-phone"/></svg></span>
+          <span>Walk-ins welcome &middot; Call to book</span>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="hours-title"><svg class="icon"><use href="#i-clock"/></svg>Opening Hours</div>
+        <div class="hours-row" data-day="0"><span class="day">Sunday</span><span class="time">09:00 – 15:00</span></div>
+        <div class="hours-row" data-day="1"><span class="day">Monday</span><span class="time">08:00 – 21:00</span></div>
+        <div class="hours-row" data-day="2"><span class="day">Tuesday</span><span class="time">08:00 – 21:00</span></div>
+        <div class="hours-row" data-day="3"><span class="day">Wednesday</span><span class="time">08:00 – 21:00</span></div>
+        <div class="hours-row" data-day="4"><span class="day">Thursday</span><span class="time">08:00 – 21:00</span></div>
+        <div class="hours-row" data-day="5"><span class="day">Friday</span><span class="time">08:00 – 21:30</span></div>
+        <div class="hours-row" data-day="6"><span class="day">Saturday</span><span class="time">08:00 – 22:30</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal"><svg class="icon"><use href="#i-sparkle"/></svg>Get in Touch</div>
+    <h2 class="reveal reveal-delay-1">Send us a message</h2>
+    <div class="contact-form reveal reveal-delay-2">
+      <form id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" required placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="john@example.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+27 XX XXX XXXX">
+          </div>
+          <div class="form-group">
+            <label for="service">Service Interested In</label>
+            <select id="service" name="service">
+              <option value="">Select a service</option>
+              <option value="hair">Hair Services</option>
+              <option value="spa">Spa & Massage</option>
+              <option value="laundry">Laundry Services</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label for="message">Your Message</label>
+          <textarea id="message" name="message" required placeholder="Tell us about your booking request or inquiry..."></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn btn-solid">Send Message <svg class="icon"><use href="#i-arrow"/></svg></button>
+        </div>
+        <div id="formMessage" class="form-message"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">Just Beauty</div>
+  <p>&copy; 2026 Just Beauty &middot; Beauty, cosmetic &amp; personal care</p>
+</footer>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/27XXXXXXXXXX?text=Hi%20Just%20Beauty!%20I'd%20like%20to%20make%20a%20booking%20inquiry." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+  <svg class="icon"><use href="#i-whatsapp"/></svg>
+</a>
+
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script>
+  // Initialize EmailJS (replace YOUR_PUBLIC_KEY with your actual EmailJS public key)
+  emailjs.init("YOUR_PUBLIC_KEY");
+
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    links.classList.toggle('open');
+    toggle.classList.toggle('active');
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.classList.remove('active');
+  }));
+
+  // scroll reveal
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+
+  // highlight today's opening hours
+  const todayIdx = new Date().getDay();
+  const row = document.querySelector('.hours-row[data-day="' + todayIdx + '"]');
+  if (row) row.classList.add('today');
+
+  // Contact Form Handling with EmailJS
+  const contactForm = document.getElementById('contactForm');
+  const formMessage = document.getElementById('formMessage');
+
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending...';
+    
+    // Get form data
+    const formData = {
+      from_name: document.getElementById('name').value,
+      from_email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      service: document.getElementById('service').value,
+      message: document.getElementById('message').value
+    };
+
+    // Send email using EmailJS
+    // Replace YOUR_SERVICE_ID, YOUR_TEMPLATE_ID with your actual EmailJS service and template IDs
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
+      .then(function() {
+        formMessage.textContent = 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.';
+        formMessage.className = 'form-message success';
+        contactForm.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }, function(error) {
+        formMessage.textContent = 'Oops! Something went wrong. Please try again or contact us via WhatsApp.';
+        formMessage.className = 'form-message error';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        console.error('EmailJS error:', error);
+      });
+  });
+</script>
+
+</body>
+</html>
