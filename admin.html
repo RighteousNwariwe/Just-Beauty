@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Portal — Just Beauty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FBF2E7;
+    --peach: #F4E1CC;
+    --dark: #1C120C;
+    --ink: #2A1D14;
+    --rose: #BE5B52;
+    --rose-deep: #A64B44;
+    --gold: #D8B26B;
+    --line: rgba(42,29,20,0.12);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    min-height: 100vh;
+  }
+
+  h1,h2,h3,.logo{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+
+  .icon{
+    width:1em; height:1em;
+    flex-shrink:0;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .btn{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:0.6em;
+    padding:0.95em 2.1em;
+    border-radius:999px;
+    font-size:0.82rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    font-weight:600;
+    transition:transform 0.3s cubic-bezier(.22,1,.36,1), background 0.25s ease, color 0.25s ease, border-color .25s ease, box-shadow .3s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .btn .icon{width:14px; height:14px; transition:transform .3s ease;}
+  .btn:hover .icon{transform:translateX(3px);}
+
+  .btn-solid{background:var(--rose); color:#fff; box-shadow:0 8px 24px -10px rgba(190,91,82,0.6);}
+  .btn-solid:hover{background:var(--rose-deep); transform:translateY(-2px); box-shadow:0 12px 28px -8px rgba(190,91,82,0.55);}
+
+  .btn-outline{border:1px solid var(--rose); color:var(--rose); background: transparent;}
+  .btn-outline:hover{background:var(--rose); color:#fff; transform:translateY(-2px);}
+
+  .wrap{max-width:1400px; margin:0 auto; padding:0 40px;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:20px 0;
+    background:var(--dark);
+    box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  }
+  .nav-inner{max-width:1400px; margin:0 auto; padding:0 40px; display:flex; align-items:center; justify-content:space-between;}
+  .logo{color:#fff; font-size:1.4rem; line-height:1;}
+  .logo span{display:block; font-family:'Inter', sans-serif; font-weight:600; font-size:0.55rem; letter-spacing:0.32em; color:var(--gold); margin-top:4px;}
+  .header-actions{display:flex; gap:16px; align-items:center;}
+
+  /* ---------- LOGIN PAGE ---------- */
+  .login-container{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--dark) 0%, #2A1D14 100%);
+    padding: 40px;
+  }
+  .login-card{
+    background: #fff;
+    border-radius: 16px;
+    padding: 48px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .login-card .logo{
+    color:var(--dark);
+    margin-bottom: 8px;
+  }
+  .login-card .logo span{
+    color:var(--rose);
+  }
+  .login-card h2{
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+    color:var(--dark);
+  }
+  .login-card p{
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .google-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 20px;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .google-btn:hover{
+    border-color: var(--rose);
+    background: var(--cream);
+  }
+  .google-btn img{
+    width: 20px;
+    height: 20px;
+  }
+  .loading-spinner{
+    display: none;
+    width: 24px;
+    height: 24px;
+    border: 3px solid var(--line);
+    border-top-color: var(--rose);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  @keyframes spin{to{transform: rotate(360deg);}}
+
+  /* ---------- ADMIN DASHBOARD ---------- */
+  .dashboard{
+    display: none;
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+  .dashboard.active{display: block;}
+
+  .dashboard-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .dashboard-header h1{
+    font-size: 2.2rem;
+    color:var(--dark);
+  }
+  .stats-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .stat-card{
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .stat-card .label{
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  .stat-card .value{
+    font-size: 2.2rem;
+    font-weight: 600;
+    color:var(--dark);
+  }
+  .stat-card.pending .value{color: var(--rose);}
+  .stat-card.completed .value{color: #16a34a;}
+
+  .requests-section{
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .requests-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .requests-header h2{
+    font-size: 1.4rem;
+  }
+  .filter-tabs{
+    display: flex;
+    gap: 8px;
+  }
+  .filter-tab{
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--cream);
+    color: var(--ink);
+    border: none;
+    transition: all 0.2s ease;
+  }
+  .filter-tab.active{
+    background: var(--rose);
+    color: #fff;
+  }
+  .filter-tab:hover:not(.active){
+    background: var(--peach);
+  }
+
+  .requests-table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .requests-table th{
+    text-align: left;
+    padding: 16px 32px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    font-weight: 600;
+    border-bottom: 1px solid var(--line);
+  }
+  .requests-table td{
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+  }
+  .requests-table tr:hover{
+    background: var(--cream);
+  }
+  .status-badge{
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .status-badge.pending{
+    background: rgba(190,91,82,0.1);
+    color: var(--rose);
+  }
+  .status-badge.completed{
+    background: rgba(22,163,74,0.1);
+    color: #16a34a;
+  }
+  .action-buttons{
+    display: flex;
+    gap: 8px;
+  }
+  .action-btn{
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+  }
+  .action-btn.approve{
+    background: rgba(22,163,74,0.1);
+    color: #16a34a;
+  }
+  .action-btn.approve:hover{
+    background: #16a34a;
+    color: #fff;
+  }
+  .action-btn.delete{
+    background: rgba(239,68,68,0.1);
+    color: #dc2626;
+  }
+  .action-btn.delete:hover{
+    background: #dc2626;
+    color: #fff;
+  }
+
+  .empty-state{
+    padding: 60px 32px;
+    text-align: center;
+    color: #888;
+  }
+  .empty-state .icon{
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    color: var(--line);
+  }
+
+  .user-info{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    font-size: 0.9rem;
+  }
+  .user-avatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--rose);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  @media (max-width: 1024px){
+    .stats-grid{grid-template-columns: repeat(2, 1fr);}
+  }
+  @media (max-width: 768px){
+    .wrap, .nav-inner{padding:0 24px;}
+    .stats-grid{grid-template-columns: 1fr;}
+    .requests-table{display: block; overflow-x: auto;}
+    .dashboard-header{flex-direction: column; align-items: flex-start; gap: 16px;}
+    .filter-tabs{flex-wrap: wrap;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+  import { getDatabase, ref, onValue, update, remove } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBebaxBvrXghHy2gvvnOPazGS2oEdGgDYI",
+    authDomain: "just-beauty-37e6d.firebaseapp.com",
+    databaseURL: "https://just-beauty-37e6d-default-rtdb.firebaseio.com",
+    projectId: "just-beauty-37e6d",
+    storageBucket: "just-beauty-37e6d.firebasestorage.app",
+    messagingSenderId: "51254735898",
+    appId: "1:51254735898:web:5bcda1ec098c9f6884cda3",
+    measurementId: "G-RX6MK36EG0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+  window.firebaseAuth = auth;
+  window.firebaseDb = db;
+  window.firebaseRef = ref;
+  window.firebaseOnValue = onValue;
+  window.firebaseUpdate = update;
+  window.firebaseRemove = remove;
+  window.onAuthStateChanged = onAuthStateChanged;
+  window.signOut = signOut;
+</script>
+
+<!-- Icon sprite sheet -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.6L19.4 10l-5.6 1.8L12 17.4l-1.8-5.6L4.6 10l5.6-1.4L12 3z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></symbol>
+  </defs>
+</svg>
+
+<!-- Login Container -->
+<div class="login-container" id="loginContainer">
+  <div class="login-card">
+    <div class="logo">Just Beauty<span>ADMIN</span></div>
+    <h2>Admin Portal</h2>
+    <p>Sign in with your Google account to access the admin dashboard.</p>
+    <button class="google-btn" id="googleSignInBtn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+      Sign in with Google
+    </button>
+    <div class="loading-spinner" id="loadingSpinner"></div>
+  </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div class="dashboard" id="dashboard">
+  <header>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Just Beauty<span>ADMIN</span></a>
+      <div class="header-actions">
+        <div class="user-info" id="userInfo">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span id="userName">Admin</span>
+        </div>
+        <button class="btn btn-outline" id="signOutBtn">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+      <button class="btn btn-solid" onclick="window.location.href='index.html'">
+        <svg class="icon"><use href="#i-arrow"/></svg>
+        Back to Site
+      </button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total Requests</div>
+        <div class="value" id="totalRequests">0</div>
+      </div>
+      <div class="stat-card pending">
+        <div class="label">Pending</div>
+        <div class="value" id="pendingRequests">0</div>
+      </div>
+      <div class="stat-card completed">
+        <div class="label">Completed</div>
+        <div class="value" id="completedRequests">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">This Week</div>
+        <div class="value" id="weekRequests">0</div>
+      </div>
+    </div>
+
+    <div class="requests-section">
+      <div class="requests-header">
+        <h2>Contact Requests</h2>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="pending">Pending</button>
+          <button class="filter-tab" data-filter="completed">Completed</button>
+        </div>
+      </div>
+      <div id="requestsContainer">
+        <table class="requests-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Service</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="requestsTableBody">
+          </tbody>
+        </table>
+        <div class="empty-state" id="emptyState" style="display:none;">
+          <svg class="icon"><use href="#i-inbox"/></svg>
+          <p>No requests found</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // DOM Elements
+  const loginContainer = document.getElementById('loginContainer');
+  const dashboard = document.getElementById('dashboard');
+  const googleSignInBtn = document.getElementById('googleSignInBtn');
+  const loadingSpinner = document.getElementById('loadingSpinner');
+  const signOutBtn = document.getElementById('signOutBtn');
+  const userInfo = document.getElementById('userInfo');
+  const userAvatar = document.getElementById('userAvatar');
+  const userName = document.getElementById('userName');
+  const requestsTableBody = document.getElementById('requestsTableBody');
+  const emptyState = document.getElementById('emptyState');
+  const filterTabs = document.querySelectorAll('.filter-tab');
+
+  let allRequests = [];
+  let currentFilter = 'all';
+
+  // Admin emails that can access the admin portal
+  const adminEmails = ['righteousonyedi@gmail.com', 'justbeauty2007@gmail.com'];
+
+  // Wait for Firebase to load
+  const initAuth = setInterval(() => {
+    if (window.onAuthStateChanged && window.firebaseAuth) {
+      clearInterval(initAuth);
+      
+      window.onAuthStateChanged(window.firebaseAuth, (user) => {
+        if (user) {
+          // Check if user email is in admin list
+          if (!adminEmails.includes(user.email)) {
+            // User is not authorized - sign them out and redirect
+            window.signOut(window.firebaseAuth);
+            alert('Access denied. You do not have permission to access the admin portal.');
+            window.location.href = 'index.html';
+            return;
+          }
+          
+          // User is signed in and authorized
+          loginContainer.style.display = 'none';
+          dashboard.classList.add('active');
+          userInfo.style.display = 'flex';
+          userAvatar.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : 'A';
+          userName.textContent = user.displayName || 'Admin';
+          loadRequests();
+        } else {
+          // User is signed out
+          loginContainer.style.display = 'flex';
+          dashboard.classList.remove('active');
+          userInfo.style.display = 'none';
+        }
+      });
+    }
+  }, 100);
+
+  // Google Sign In
+  googleSignInBtn.addEventListener('click', async () => {
+    googleSignInBtn.style.display = 'none';
+    loadingSpinner.style.display = 'block';
+    
+    try {
+      // Import signInWithPopup dynamically
+      const { signInWithPopup, GoogleAuthProvider } = await import('https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js');
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(window.firebaseAuth, provider);
+    } catch (error) {
+      console.error('Sign in error:', error);
+      alert('Sign in failed. Please try again.');
+      googleSignInBtn.style.display = 'flex';
+      loadingSpinner.style.display = 'none';
+    }
+  });
+
+  // Sign Out
+  signOutBtn.addEventListener('click', async () => {
+    try {
+      await window.signOut(window.firebaseAuth);
+      window.location.href = 'index.html';
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  });
+
+  // Load Requests from Firebase
+  function loadRequests() {
+    const submissionsRef = window.firebaseRef(window.firebaseDb, 'contact_submissions');
+    
+    window.firebaseOnValue(submissionsRef, (snapshot) => {
+      const data = snapshot.val();
+      allRequests = [];
+      
+      if (data) {
+        Object.keys(data).forEach(key => {
+          allRequests.push({
+            id: key,
+            ...data[key]
+          });
+        });
+        
+        // Sort by date (newest first)
+        allRequests.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      }
+      
+      updateStats();
+      renderRequests();
+    });
+  }
+
+  // Update Statistics
+  function updateStats() {
+    const total = allRequests.length;
+    const pending = allRequests.filter(r => r.status === 'pending').length;
+    const completed = allRequests.filter(r => r.status === 'completed').length;
+    
+    // Calculate this week's requests
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const week = allRequests.filter(r => new Date(r.timestamp) >= oneWeekAgo).length;
+    
+    document.getElementById('totalRequests').textContent = total;
+    document.getElementById('pendingRequests').textContent = pending;
+    document.getElementById('completedRequests').textContent = completed;
+    document.getElementById('weekRequests').textContent = week;
+  }
+
+  // Render Requests Table
+  function renderRequests() {
+    let filteredRequests = allRequests;
+    
+    if (currentFilter !== 'all') {
+      filteredRequests = allRequests.filter(r => r.status === currentFilter);
+    }
+    
+    if (filteredRequests.length === 0) {
+      requestsTableBody.innerHTML = '';
+      emptyState.style.display = 'block';
+      return;
+    }
+    
+    emptyState.style.display = 'none';
+    
+    requestsTableBody.innerHTML = filteredRequests.map(request => `
+      <tr>
+        <td>${formatDate(request.timestamp)}</td>
+        <td>${escapeHtml(request.from_name)}</td>
+        <td>${escapeHtml(request.from_email)}</td>
+        <td>${escapeHtml(request.phone || 'N/A')}</td>
+        <td>${capitalizeFirst(request.service || 'Other')}</td>
+        <td><span class="status-badge ${request.status}">${request.status}</span></td>
+        <td>
+          <div class="action-buttons">
+            ${request.status === 'pending' ? `
+              <button class="action-btn approve" onclick="updateStatus('${request.id}', 'completed')">
+                <svg class="icon" style="width:14px;height:14px;"><use href="#i-check"/></svg>
+              </button>
+            ` : ''}
+            <button class="action-btn delete" onclick="deleteRequest('${request.id}')">
+              <svg class="icon" style="width:14px;height:14px;"><use href="#i-trash"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Update Request Status
+  window.updateStatus = async function(requestId, newStatus) {
+    try {
+      const requestRef = window.firebaseRef(window.firebaseDb, `contact_submissions/${requestId}`);
+      await window.firebaseUpdate(requestRef, { status: newStatus });
+    } catch (error) {
+      console.error('Update error:', error);
+      alert('Failed to update status. Please try again.');
+    }
+  };
+
+  // Delete Request
+  window.deleteRequest = async function(requestId) {
+    if (!confirm('Are you sure you want to delete this request?')) return;
+    
+    try {
+      const requestRef = window.firebaseRef(window.firebaseDb, `contact_submissions/${requestId}`);
+      await window.firebaseRemove(requestRef);
+    } catch (error) {
+      console.error('Delete error:', error);
+      alert('Failed to delete request. Please try again.');
+    }
+  };
+
+  // Filter Tabs
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      filterTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentFilter = tab.dataset.filter;
+      renderRequests();
+    });
+  });
+
+  // Helper Functions
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-ZA', { 
+      day: '2-digit', 
+      month: 'short', 
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+</script>
+
+</body>
+</html>
