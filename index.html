@@ -908,9 +908,15 @@
         await window.firebasePush(submissionsRef, formData);
       }
 
-      // Send email using EmailJS
-      // Replace YOUR_SERVICE_ID with your actual EmailJS service ID
-      await emailjs.send('YOUR_SERVICE_ID', 'template_zfgrbdr', formData);
+      // Send email using EmailJS to business
+      await emailjs.send('service_5qnw6jh', 'template_zfgrbdr', formData);
+      
+      // Send auto-reply email to user
+      await emailjs.send('service_5qnw6jh', 'template_eb9gjhk', {
+        to_email: formData.from_email,
+        to_name: formData.from_name,
+        service: formData.service
+      });
       
       formMessage.textContent = 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.';
       formMessage.className = 'form-message success';
