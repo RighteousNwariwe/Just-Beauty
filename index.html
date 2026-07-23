@@ -44,6 +44,7 @@
 
   a{color:inherit; text-decoration:none;}
   img{display:block; width:100%; height:100%; object-fit:cover;}
+  video{display:block; width:100%; height:100%; object-fit:cover;}
   ul{list-style:none;}
 
   .icon{
@@ -112,8 +113,10 @@
     box-shadow:0 8px 30px -12px rgba(0,0,0,0.5);
   }
   .nav-inner{max-width:1180px; margin:0 auto; padding:0 40px; display:flex; align-items:center; justify-content:space-between;}
-  .logo{color:#fff; font-size:1.5rem; line-height:1;}
-  .logo span{display:block; font-family:'Inter', sans-serif; font-weight:600; font-size:0.6rem; letter-spacing:0.32em; color:var(--gold); margin-top:6px;}
+  .logo{color:#fff; font-size:1.5rem; line-height:1; display:flex; align-items:center; gap:12px;}
+  .logo img{height:40px; width:auto; object-fit:contain;}
+  .logo-text{display:flex; flex-direction:column;}
+  .logo-text span{display:block; font-family:'Inter', sans-serif; font-weight:600; font-size:0.6rem; letter-spacing:0.32em; color:var(--gold); margin-top:4px;}
   nav.links{display:flex; gap:2.6rem;}
   nav.links a{color:#fff; font-size:0.78rem; letter-spacing:0.16em; font-weight:600; text-transform:uppercase; opacity:0.92; position:relative; padding-bottom:4px;}
   nav.links a::after{content:''; position:absolute; left:0; right:0; bottom:-2px; height:1px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .3s ease;}
@@ -494,7 +497,10 @@
 
 <header id="siteHeader">
   <div class="nav-inner">
-    <a href="#top" class="logo">Just Beauty<span>CAPE TOWN</span></a>
+    <a href="#top" class="logo">
+      <img src="just beauty logo.jpeg" alt="Just Beauty Logo">
+      <div class="logo-text">Just Beauty<span>CAPE TOWN</span></div>
+    </a>
     <nav class="links" id="navLinks">
       <a href="#hair">Hair</a>
       <a href="#spa">Spa</a>
@@ -511,7 +517,7 @@
 </header>
 
 <section class="hero" id="top">
-  <img src="hero-salon.jpg" alt="Just Beauty salon interior with chandeliers and styling chairs">
+  <img src="salon pic.jpeg" alt="Just Beauty salon interior with chandeliers and styling chairs">
   <div class="hero-content">
     <div class="eyebrow"><svg class="icon"><use href="#i-sparkle"/></svg>Hair &middot; Spa &middot; Laundry</div>
     <h1>Beauty, care <em>&amp; calm</em><br>under one roof.</h1>
@@ -535,7 +541,7 @@
 
 <section class="split" id="hair">
   <div class="split-media reveal">
-    <img src="hero-salon.jpg" alt="Styling chairs and mirrors at Just Beauty">
+    <img src="salon chairs  pic.jpeg" alt="Styling chairs and mirrors at Just Beauty">
     <div class="badge">
       <div class="badge-icon"><svg class="icon"><use href="#i-scissors"/></svg></div>
       <div>
@@ -567,6 +573,15 @@
       <div class="price-row"><span class="name">Dreadlocks</span><span class="price">from R500</span></div>
     </div>
     <p class="price-note">* Fibre not included on braids.</p>
+    
+    <!-- Hair Services Media -->
+    <div style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <video controls style="border-radius:8px; height:200px;">
+        <source src="wig vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <img src="haircut.jpeg" alt="Haircut service" style="border-radius:8px; height:200px;">
+    </div>
   </div>
 </section>
 
@@ -585,7 +600,16 @@
       <div class="price-row"><span class="name">Full Body Massage (45 min)</span><span class="price">from R450</span></div>
     </div>
     <p class="price-note"><b>Spa treatments</b> by appointment only — Fridays &amp; Saturdays.</p>
-    <a href="#visit" class="btn btn-solid">Book a Session <svg class="icon"><use href="#i-arrow"/></svg></a>
+    
+    <!-- Spa Services Media -->
+    <div style="margin-top:32px;">
+      <video controls style="border-radius:8px; height:200px;">
+        <source src="lashes video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+    <a href="#visit" class="btn btn-solid" style="margin-top:24px;">Book a Session <svg class="icon"><use href="#i-arrow"/></svg></a>
   </div>
 </section>
 
