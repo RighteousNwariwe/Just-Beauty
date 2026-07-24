@@ -1063,10 +1063,17 @@
 
       // Send auto-reply email to user
       try {
-        await emailjs.send('service_5qnw6jh', 'template_eb9gjhk', {
+        await emailjs.send('service_dj8gn7e', 'template_3vjh2j4', {
           to_email: formData.from_email,
           to_name: formData.from_name,
-          service: formData.service
+          service: formData.service,
+          phone: formData.phone,
+          message: formData.message,
+          hairService: formData.hairService || '',
+          spaService: formData.spaService || '',
+          laundryService: formData.laundryService || '',
+          laundryWeight: formData.laundryWeight || '',
+          estimatedCost: formData.estimatedCost || ''
         });
       } catch (emailError) {
         console.error('EmailJS error:', emailError);
