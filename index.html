@@ -339,6 +339,27 @@
     color:#dc2626; border:1px solid rgba(239,68,68,0.2);
   }
 
+  /* Service Options */
+  .service-options{
+    margin-top:20px;
+    padding:20px;
+    background:var(--cream);
+    border-radius:8px;
+    border:1px solid rgba(42,29,20,0.1);
+  }
+  .laundry-estimate{
+    margin-top:16px;
+    padding:12px 16px;
+    background:rgba(216,178,107,0.1);
+    border:1px solid rgba(216,178,107,0.3);
+    border-radius:6px;
+    color:var(--ink);
+    font-size:0.95rem;
+  }
+  .laundry-estimate strong{
+    color:var(--rose);
+  }
+
   @media (max-width: 640px){
     .form-row{grid-template-columns:1fr;}
     .contact-form{padding:28px 20px;}
@@ -705,6 +726,65 @@
             </select>
           </div>
         </div>
+
+        <!-- Hair Services Options -->
+        <div id="hairOptions" class="service-options" style="display:none;">
+          <div class="form-group">
+            <label for="hairService">Specific Hair Service</label>
+            <select id="hairService" name="hairService">
+              <option value="">Select hair service</option>
+              <option value="wash_dry">Wash / Dry (from R100)</option>
+              <option value="lines">Lines (R150)</option>
+              <option value="relaxer">Relaxer (R250)</option>
+              <option value="short_twist">Short Twist (from R300)</option>
+              <option value="long_twist">Long Twist (from R500)</option>
+              <option value="boho_short">Boho Braid - Short (R400)</option>
+              <option value="boho_long">Boho Braid - Long (R500)</option>
+              <option value="crochet">Crochet (R300)</option>
+              <option value="pony_tail">Pony Tail (R250)</option>
+              <option value="treatment">Treatment (R300)</option>
+              <option value="wig_installation">Wig Installation (from R200)</option>
+              <option value="dreadlocks">Dreadlocks (from R500)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Spa Services Options -->
+        <div id="spaOptions" class="service-options" style="display:none;">
+          <div class="form-group">
+            <label for="spaService">Specific Spa Service</label>
+            <select id="spaService" name="spaService">
+              <option value="">Select spa service</option>
+              <option value="pedicure_manicure">Pedicure & Manicure (from R300)</option>
+              <option value="foot_leg_massage">Foot & Leg Massage (from R300)</option>
+              <option value="back_massage">Back Massage (30-45 min) (R350)</option>
+              <option value="full_body_massage">Full Body Massage (45 min) (from R450)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Laundry Services Options -->
+        <div id="laundryOptions" class="service-options" style="display:none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="laundryService">Laundry Service</label>
+              <select id="laundryService" name="laundryService">
+                <option value="">Select laundry service</option>
+                <option value="wash_dry">Wash & Dry (R30/kilo)</option>
+                <option value="ironing">Ironing (R30/shirt)</option>
+                <option value="dry_cleaning">Dry Cleaning (from R250)</option>
+                <option value="blankets">Blankets (from R250)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="laundryWeight">Weight (kg) / Quantity</label>
+              <input type="number" id="laundryWeight" name="laundryWeight" placeholder="Enter weight in kg" min="0" step="0.1">
+            </div>
+          </div>
+          <div class="laundry-estimate" id="laundryEstimate" style="display:none;">
+            <strong>Estimated Cost: R<span id="estimatedCost">0</span></strong>
+          </div>
+        </div>
         <div class="form-group full">
           <label for="message">Your Message</label>
           <textarea id="message" name="message" required placeholder="Tell us about your booking request or inquiry..."></textarea>
@@ -881,6 +961,68 @@
   // Contact Form Handling with EmailJS and Firebase
   const contactForm = document.getElementById('contactForm');
   const formMessage = document.getElementById('formMessage');
+  const serviceSelect = document.getElementById('service');
+  const hairOptions = document.getElementById('hairOptions');
+  const spaOptions = document.getElementById('spaOptions');
+  const laundryOptions = document.getElementById('laundryOptions');
+  const laundryService = document.getElementById('laundryService');
+  const laundryWeight = document.getElementById('laundryWeight');
+  const laundryEstimate = document.getElementById('laundryEstimate');
+  const estimatedCost = document.getElementById('estimatedCost');
+
+  // Service selection handler
+  serviceSelect.addEventListener('change', function() {
+    // Hide all service options
+    hairOptions.style.display = 'none';
+    spaOptions.style.display = 'none';
+    laundryOptions.style.display = 'none';
+
+    // Show relevant options based on selection
+    switch(this.value) {
+      case 'hair':
+        hairOptions.style.display = 'block';
+        break;
+      case 'spa':
+        spaOptions.style.display = 'block';
+        break;
+      case 'laundry':
+        laundryOptions.style.display = 'block';
+        break;
+    }
+  });
+
+  // Laundry cost calculator
+  function calculateLaundryCost() {
+    const service = laundryService.value;
+    const weight = parseFloat(laundryWeight.value) || 0;
+
+    if (!service || weight <= 0) {
+      laundryEstimate.style.display = 'none';
+      return;
+    }
+
+    let cost = 0;
+    switch(service) {
+      case 'wash_dry':
+        cost = weight * 30; // R30 per kg
+        break;
+      case 'ironing':
+        cost = weight * 30; // R30 per shirt (assuming weight input = quantity)
+        break;
+      case 'dry_cleaning':
+        cost = 250 + (weight * 50); // Base R250 + R50 per kg
+        break;
+      case 'blankets':
+        cost = 250 + (weight * 40); // Base R250 + R40 per kg
+        break;
+    }
+
+    estimatedCost.textContent = cost.toFixed(2);
+    laundryEstimate.style.display = 'block';
+  }
+
+  laundryService.addEventListener('change', calculateLaundryCost);
+  laundryWeight.addEventListener('input', calculateLaundryCost);
 
   contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -900,6 +1042,17 @@
       timestamp: new Date().toISOString(),
       status: 'pending'
     };
+
+    // Add service-specific details
+    if (formData.service === 'hair') {
+      formData.hairService = document.getElementById('hairService').value;
+    } else if (formData.service === 'spa') {
+      formData.spaService = document.getElementById('spaService').value;
+    } else if (formData.service === 'laundry') {
+      formData.laundryService = document.getElementById('laundryService').value;
+      formData.laundryWeight = document.getElementById('laundryWeight').value;
+      formData.estimatedCost = document.getElementById('estimatedCost').textContent;
+    }
 
     try {
       // Save to Firebase Realtime Database

@@ -1060,6 +1060,36 @@
         <div class="detail-label">Service</div>
         <div class="detail-value">${capitalizeFirst(request.service || 'Other')}</div>
       </div>
+      ${request.hairService ? `
+      <div class="detail-row">
+        <div class="detail-label">Specific Hair Service</div>
+        <div class="detail-value">${capitalizeFirst(request.hairService.replace(/_/g, ' '))}</div>
+      </div>
+      ` : ''}
+      ${request.spaService ? `
+      <div class="detail-row">
+        <div class="detail-label">Specific Spa Service</div>
+        <div class="detail-value">${capitalizeFirst(request.spaService.replace(/_/g, ' '))}</div>
+      </div>
+      ` : ''}
+      ${request.laundryService ? `
+      <div class="detail-row">
+        <div class="detail-label">Laundry Service</div>
+        <div class="detail-value">${capitalizeFirst(request.laundryService.replace(/_/g, ' '))}</div>
+      </div>
+      ` : ''}
+      ${request.laundryWeight ? `
+      <div class="detail-row">
+        <div class="detail-label">Weight/Quantity</div>
+        <div class="detail-value">${request.laundryWeight} kg</div>
+      </div>
+      ` : ''}
+      ${request.estimatedCost ? `
+      <div class="detail-row">
+        <div class="detail-label">Estimated Cost</div>
+        <div class="detail-value">R${request.estimatedCost}</div>
+      </div>
+      ` : ''}
       <div class="detail-row">
         <div class="detail-label">Status</div>
         <div class="detail-value"><span class="status-badge ${request.status}">${request.status}</span></div>
