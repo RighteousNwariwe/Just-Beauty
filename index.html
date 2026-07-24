@@ -1063,20 +1063,26 @@
 
       // Send auto-reply email to user
       try {
+        console.log('Sending email with data:', {
+          to_email: formData.from_email,
+          to_name: formData.from_name,
+          service: formData.service,
+          phone: formData.phone,
+          message: formData.message
+        });
+
         await emailjs.send('service_dj8gn7e', 'template_3vjh2j4', {
           to_email: formData.from_email,
           to_name: formData.from_name,
           service: formData.service,
           phone: formData.phone,
-          message: formData.message,
-          hairService: formData.hairService || '',
-          spaService: formData.spaService || '',
-          laundryService: formData.laundryService || '',
-          laundryWeight: formData.laundryWeight || '',
-          estimatedCost: formData.estimatedCost || ''
+          message: formData.message
         });
+
+        console.log('Email sent successfully');
       } catch (emailError) {
         console.error('EmailJS error:', emailError);
+        console.error('Error details:', JSON.stringify(emailError, null, 2));
         // Continue even if email fails - data is saved to Firebase
       }
       
