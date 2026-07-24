@@ -908,10 +908,10 @@
         await window.firebasePush(submissionsRef, formData);
       }
 
-      // Send email using EmailJS to business
+      // Send email using EmailJS to business (contact us template)
       await emailjs.send('service_5qnw6jh', 'template_zfgrbdr', formData);
       
-      // Send auto-reply email to user
+      // Send auto-reply email to user (auto-reply template)
       await emailjs.send('service_5qnw6jh', 'template_eb9gjhk', {
         to_email: formData.from_email,
         to_name: formData.from_name,
