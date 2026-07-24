@@ -702,27 +702,27 @@
       <form id="contactForm">
         <div class="form-row">
           <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" required placeholder="John Doe">
+            <label for="userName">Your Name</label>
+            <input type="text" id="userName" name="userName" required placeholder="John Doe">
           </div>
           <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required placeholder="john@example.com">
+            <label for="userEmail">Email Address</label>
+            <input type="email" id="userEmail" name="userEmail" required placeholder="john@example.com">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="+27 XX XXX XXXX">
+            <label for="userPhone">Phone Number</label>
+            <input type="tel" id="userPhone" name="userPhone" placeholder="+27 XX XXX XXXX">
           </div>
           <div class="form-group">
-            <label for="service">Service Interested In</label>
-            <select id="service" name="service">
+            <label for="userService">Service Required</label>
+            <select id="userService" name="userService">
               <option value="">Select a service</option>
-              <option value="hair">Hair Services</option>
+              <option value="hair">Hairdressing</option>
               <option value="spa">Spa & Massage</option>
-              <option value="laundry">Laundry Services</option>
-              <option value="other">Other</option>
+              <option value="laundry">Laundry</option>
+              <option value="other">Other Inquiry</option>
             </select>
           </div>
         </div>
@@ -785,14 +785,15 @@
             <strong>Estimated Cost: R<span id="estimatedCost">0</span></strong>
           </div>
         </div>
+
         <div class="form-group full">
-          <label for="message">Your Message</label>
-          <textarea id="message" name="message" required placeholder="Tell us about your booking request or inquiry..."></textarea>
+          <label for="userMessage">Message</label>
+          <textarea id="userMessage" name="userMessage" required placeholder="How can we help you?"></textarea>
         </div>
         <div class="form-submit">
-          <button type="submit" class="btn btn-solid">Send Message <svg class="icon"><use href="#i-arrow"/></svg></button>
+          <button type="submit" id="submitBtn" class="btn btn-solid">Send Message <svg class="icon"><use href="#i-arrow"/></svg></button>
         </div>
-        <div id="formMessage" class="form-message"></div>
+        <div id="formStatus" class="form-message"></div>
       </form>
     </div>
   </div>
@@ -960,8 +961,8 @@
 
   // Contact Form Handling with EmailJS and Firebase
   const contactForm = document.getElementById('contactForm');
-  const formMessage = document.getElementById('formMessage');
-  const serviceSelect = document.getElementById('service');
+  const formStatus = document.getElementById('formStatus');
+  const serviceSelect = document.getElementById('userService');
   const hairOptions = document.getElementById('hairOptions');
   const spaOptions = document.getElementById('spaOptions');
   const laundryOptions = document.getElementById('laundryOptions');
@@ -1026,29 +1027,36 @@
 
   contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    const submitBtn = document.getElementById('submitBtn');
     const originalBtnText = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'Sending...';
-    
-    // Get form data
+
+    // Dynamically retrieve user input values from HTML IDs
+    const userEmail = document.getElementById('userEmail').value;
+    const userName = document.getElementById('userName').value;
+    const userService = document.getElementById('userService').value;
+    const userPhone = document.getElementById('userPhone').value;
+    const userMessage = document.getElementById('userMessage').value;
+
+    // Prepare data for Firebase
     const formData = {
-      from_name: document.getElementById('name').value,
-      from_email: document.getElementById('email').value,
-      phone: document.getElementById('phone').value,
-      service: document.getElementById('service').value,
-      message: document.getElementById('message').value,
+      from_name: userName,
+      from_email: userEmail,
+      phone: userPhone,
+      service: userService,
+      message: userMessage,
       timestamp: new Date().toISOString(),
       status: 'pending'
     };
 
     // Add service-specific details
-    if (formData.service === 'hair') {
+    if (userService === 'hair') {
       formData.hairService = document.getElementById('hairService').value;
-    } else if (formData.service === 'spa') {
+    } else if (userService === 'spa') {
       formData.spaService = document.getElementById('spaService').value;
-    } else if (formData.service === 'laundry') {
+    } else if (userService === 'laundry') {
       formData.laundryService = document.getElementById('laundryService').value;
       formData.laundryWeight = document.getElementById('laundryWeight').value;
       formData.estimatedCost = document.getElementById('estimatedCost').textContent;
@@ -1061,41 +1069,34 @@
         await window.firebasePush(submissionsRef, formData);
       }
 
-      // Send auto-reply email to user
-      try {
-        console.log('Sending email with data:', {
-          to_email: formData.from_email,
-          to_name: formData.from_name,
-          service: formData.service,
-          phone: formData.phone,
-          message: formData.message
-        });
+      // Send payload using EmailJS
+      await emailjs.send('service_dj8gn7e', 'template_3vjh2j4', {
+        email: userEmail,       // Matches {{email}} in Auto-Reply
+        to_name: userName,     // Matches {{to_name}} in Auto-Reply
+        service: userService,   // Matches {{service}} in Auto-Reply
+        phone: userPhone,       // Matches {{phone}} in Auto-Reply
+        message: userMessage    // Matches {{message}} in Auto-Reply
+      });
 
-        await emailjs.send('service_dj8gn7e', 'template_3vjh2j4', {
-          to_email: formData.from_email,
-          to_name: formData.from_name,
-          service: formData.service,
-          phone: formData.phone,
-          message: formData.message
-        });
-
-        console.log('Email sent successfully');
-      } catch (emailError) {
-        console.error('EmailJS error:', emailError);
-        console.error('Error details:', JSON.stringify(emailError, null, 2));
-        // Continue even if email fails - data is saved to Firebase
-      }
-      
-      formMessage.textContent = 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.';
-      formMessage.className = 'form-message success';
-      contactForm.reset();
-    } catch (error) {
-      formMessage.textContent = 'Oops! Something went wrong. Please try again or contact us via WhatsApp.';
-      formMessage.className = 'form-message error';
-      console.error('Error:', error);
-    } finally {
-      submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtnText;
+      submitBtn.disabled = false;
+
+      formStatus.className = 'form-message success';
+      formStatus.innerText = 'Message sent successfully! Check your inbox for confirmation.';
+
+      contactForm.reset();
+      // Hide service options after reset
+      hairOptions.style.display = 'none';
+      spaOptions.style.display = 'none';
+      laundryOptions.style.display = 'none';
+      laundryEstimate.style.display = 'none';
+    } catch (error) {
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.disabled = false;
+
+      formStatus.className = 'form-message error';
+      formStatus.innerText = 'Failed to send message. Please try again later.';
+      console.error('EmailJS Error:', error);
     }
   });
 
