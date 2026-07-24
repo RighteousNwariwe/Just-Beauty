@@ -611,11 +611,11 @@
     
     <!-- In Store Media -->
     <div class="reveal" style="margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-      <video controls style="border-radius:8px; height:200px;">
+      <video autoplay muted loop playsinline style="border-radius:8px; height:200px;">
         <source src="wig vid.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
-      <video controls style="border-radius:8px; height:200px;">
+      <video autoplay muted loop playsinline style="border-radius:8px; height:200px;">
         <source src="lashes video.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -908,15 +908,17 @@
         await window.firebasePush(submissionsRef, formData);
       }
 
-      // Send email using EmailJS to business (contact us template)
-      await emailjs.send('service_5qnw6jh', 'template_eb9gjhk', formData);
-      
-      // Send auto-reply email to user (auto-reply template)
-      await emailjs.send('service_5qnw6jh', 'template_eb9gjhk', {
-        to_email: formData.from_email,
-        to_name: formData.from_name,
-        service: formData.service
-      });
+      // Send auto-reply email to user
+      try {
+        await emailjs.send('service_5qnw6jh', 'template_eb9gjhk', {
+          to_email: formData.from_email,
+          to_name: formData.from_name,
+          service: formData.service
+        });
+      } catch (emailError) {
+        console.error('EmailJS error:', emailError);
+        // Continue even if email fails - data is saved to Firebase
+      }
       
       formMessage.textContent = 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.';
       formMessage.className = 'form-message success';

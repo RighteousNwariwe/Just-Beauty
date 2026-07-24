@@ -283,6 +283,30 @@
     background: rgba(22,163,74,0.1);
     color: #16a34a;
   }
+  .status-badge.received{
+    background: rgba(59,130,246,0.1);
+    color: #3b82f6;
+  }
+  .status-badge.washing{
+    background: rgba(168,85,247,0.1);
+    color: #a855f7;
+  }
+  .status-badge.ready{
+    background: rgba(234,179,8,0.1);
+    color: #eab308;
+  }
+  .status-badge.collected{
+    background: rgba(22,163,74,0.1);
+    color: #16a34a;
+  }
+  .status-badge.paid{
+    background: rgba(22,163,74,0.1);
+    color: #16a34a;
+  }
+  .status-badge.unpaid{
+    background: rgba(239,68,68,0.1);
+    color: #dc2626;
+  }
   .action-buttons{
     display: flex;
     gap: 8px;
@@ -311,6 +335,182 @@
   .action-btn.delete:hover{
     background: #dc2626;
     color: #fff;
+  }
+  .action-btn.view{
+    background: rgba(59,130,246,0.1);
+    color: #3b82f6;
+  }
+  .action-btn.view:hover{
+    background: #3b82f6;
+    color: #fff;
+  }
+  .action-btn.paid{
+    background: rgba(22,163,74,0.1);
+    color: #16a34a;
+  }
+  .action-btn.paid:hover{
+    background: #16a34a;
+    color: #fff;
+  }
+  .action-btn.unpaid{
+    background: rgba(239,68,68,0.1);
+    color: #dc2626;
+  }
+  .action-btn.unpaid:hover{
+    background: #dc2626;
+    color: #fff;
+  }
+
+  /* Modal Styles */
+  .modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal-overlay.active{
+    display: flex;
+  }
+  .modal{
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .modal-header h3{
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+  .modal-close{
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: var(--cream);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .modal-close:hover{
+    background: var(--peach);
+  }
+  .modal-body{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .detail-row{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .detail-label{
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888;
+    font-weight: 600;
+  }
+  .detail-value{
+    font-size: 1rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .detail-value.message{
+    background: var(--cream);
+    padding: 16px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+  }
+
+  /* Service Breakdown */
+  .service-breakdown{
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .service-breakdown h2{
+    font-size: 1.5rem;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .service-chart{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .service-bar{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .service-label{
+    min-width: 120px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .service-bar-container{
+    flex: 1;
+    height: 32px;
+    background: var(--cream);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .service-bar-fill{
+    height: 100%;
+    background: var(--rose);
+    border-radius: 8px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+  }
+  .service-bar-fill.hair{
+    background: #BE5B52;
+  }
+  .service-bar-fill.spa{
+    background: #D8B26B;
+  }
+  .service-bar-fill.laundry{
+    background: #2A1D14;
+  }
+  .service-bar-fill.other{
+    background: #888;
+  }
+  .service-count{
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  .service-percentage{
+    min-width: 60px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: right;
   }
 
   .empty-state{
@@ -396,6 +596,7 @@
     <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.6L19.4 10l-5.6 1.8L12 17.4l-1.8-5.6L4.6 10l5.6-1.4L12 3z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></symbol>
   </defs>
 </svg>
@@ -411,6 +612,21 @@
       Sign in with Google
     </button>
     <div class="loading-spinner" id="loadingSpinner"></div>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-overlay" id="detailsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Request Details</h3>
+      <button class="modal-close" onclick="closeModal()">
+        <svg class="icon"><use href="#i-arrow"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Details will be populated here -->
+    </div>
   </div>
 </div>
 
@@ -454,6 +670,14 @@
       <div class="stat-card">
         <div class="label">This Week</div>
         <div class="value" id="weekRequests">0</div>
+      </div>
+    </div>
+
+    <!-- Service Breakdown -->
+    <div class="service-breakdown">
+      <h2>Service Breakdown</h2>
+      <div class="service-chart" id="serviceChart">
+        <!-- Service bars will be rendered here -->
       </div>
     </div>
 
@@ -594,6 +818,7 @@
       
       updateStats();
       renderRequests();
+      renderServiceBreakdown();
     });
   }
 
@@ -612,6 +837,56 @@
     document.getElementById('pendingRequests').textContent = pending;
     document.getElementById('completedRequests').textContent = completed;
     document.getElementById('weekRequests').textContent = week;
+  }
+
+  // Render Service Breakdown Chart
+  function renderServiceBreakdown() {
+    if (allRequests.length === 0) {
+      document.getElementById('serviceChart').innerHTML = '<p style="color:#888; text-align:center;">No data available</p>';
+      return;
+    }
+
+    const serviceCounts = {};
+    allRequests.forEach(request => {
+      const service = (request.service || 'other').toLowerCase();
+      serviceCounts[service] = (serviceCounts[service] || 0) + 1;
+    });
+
+    const total = allRequests.length;
+    const serviceColors = {
+      'hair': 'hair',
+      'spa': 'spa', 
+      'laundry': 'laundry',
+      'other': 'other'
+    };
+
+    const serviceLabels = {
+      'hair': 'Hair Services',
+      'spa': 'Spa & Massage',
+      'laundry': 'Laundry',
+      'other': 'Other'
+    };
+
+    const chartHTML = Object.keys(serviceCounts).map(service => {
+      const count = serviceCounts[service];
+      const percentage = ((count / total) * 100).toFixed(1);
+      const colorClass = serviceColors[service] || 'other';
+      const label = serviceLabels[service] || capitalizeFirst(service);
+
+      return `
+        <div class="service-bar">
+          <div class="service-label">${label}</div>
+          <div class="service-bar-container">
+            <div class="service-bar-fill ${colorClass}" style="width: ${percentage}%">
+              <span class="service-count">${count}</span>
+            </div>
+          </div>
+          <div class="service-percentage">${percentage}%</div>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('serviceChart').innerHTML = chartHTML;
   }
 
   // Render Requests Table
@@ -640,18 +915,55 @@
         <td><span class="status-badge ${request.status}">${request.status}</span></td>
         <td>
           <div class="action-buttons">
-            ${request.status === 'pending' ? `
-              <button class="action-btn approve" onclick="updateStatus('${request.id}', 'completed')">
-                <svg class="icon" style="width:14px;height:14px;"><use href="#i-check"/></svg>
-              </button>
-            ` : ''}
-            <button class="action-btn delete" onclick="deleteRequest('${request.id}')">
+            <button class="action-btn view" onclick="viewDetails('${request.id}')" title="View Details">
+              <svg class="icon" style="width:14px;height:14px;"><use href="#i-eye"/></svg>
+            </button>
+            ${getStatusButtons(request)}
+            <button class="action-btn delete" onclick="deleteRequest('${request.id}')" title="Delete">
               <svg class="icon" style="width:14px;height:14px;"><use href="#i-trash"/></svg>
             </button>
           </div>
         </td>
       </tr>
     `).join('');
+  }
+
+  // Get Status Buttons based on service type
+  function getStatusButtons(request) {
+    const service = (request.service || '').toLowerCase();
+    const status = request.status || 'pending';
+
+    if (service === 'laundry') {
+      // Laundry workflow: received -> washing -> ready -> collected
+      const laundryStatuses = ['received', 'washing', 'ready', 'collected'];
+      const currentIndex = laundryStatuses.indexOf(status);
+      
+      if (currentIndex < laundryStatuses.length - 1) {
+        const nextStatus = laundryStatuses[currentIndex + 1];
+        return `
+          <button class="action-btn approve" onclick="updateStatus('${request.id}', '${nextStatus}')" title="Mark as ${capitalizeFirst(nextStatus)}">
+            <svg class="icon" style="width:14px;height:14px;"><use href="#i-check"/></svg>
+          </button>
+        `;
+      }
+    } else {
+      // Regular workflow: pending -> completed
+      if (status === 'pending') {
+        return `
+          <button class="action-btn approve" onclick="updateStatus('${request.id}', 'completed')" title="Mark Complete">
+            <svg class="icon" style="width:14px;height:14px;"><use href="#i-check"/></svg>
+          </button>
+        `;
+      }
+    }
+    
+    // Add payment toggle button
+    const isPaid = request.paymentStatus === 'paid';
+    return `
+      <button class="action-btn ${isPaid ? 'paid' : 'unpaid'}" onclick="togglePayment('${request.id}')" title="${isPaid ? 'Mark Unpaid' : 'Mark Paid'}">
+        ${isPaid ? 'R' : '₽'}
+      </button>
+    `;
   }
 
   // Update Request Status
@@ -675,6 +987,21 @@
     } catch (error) {
       console.error('Delete error:', error);
       alert('Failed to delete request. Please try again.');
+    }
+  };
+
+  // Toggle Payment Status
+  window.togglePayment = async function(requestId) {
+    try {
+      const request = allRequests.find(r => r.id === requestId);
+      if (!request) return;
+
+      const newPaymentStatus = request.paymentStatus === 'paid' ? 'unpaid' : 'paid';
+      const requestRef = window.firebaseRef(window.firebaseDb, `contact_submissions/${requestId}`);
+      await window.firebaseUpdate(requestRef, { paymentStatus: newPaymentStatus });
+    } catch (error) {
+      console.error('Payment toggle error:', error);
+      alert('Failed to update payment status. Please try again.');
     }
   };
 
@@ -709,6 +1036,61 @@
   function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
+  // View Details Modal
+  window.viewDetails = function(requestId) {
+    const request = allRequests.find(r => r.id === requestId);
+    if (!request) return;
+
+    const modalBody = document.getElementById('modalBody');
+    modalBody.innerHTML = `
+      <div class="detail-row">
+        <div class="detail-label">Name</div>
+        <div class="detail-value">${escapeHtml(request.from_name)}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Email</div>
+        <div class="detail-value">${escapeHtml(request.from_email)}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Phone</div>
+        <div class="detail-value">${escapeHtml(request.phone || 'N/A')}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Service</div>
+        <div class="detail-value">${capitalizeFirst(request.service || 'Other')}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Status</div>
+        <div class="detail-value"><span class="status-badge ${request.status}">${request.status}</span></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Payment Status</div>
+        <div class="detail-value"><span class="status-badge ${request.paymentStatus || 'unpaid'}">${request.paymentStatus || 'unpaid'}</span></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Submitted</div>
+        <div class="detail-value">${formatDate(request.timestamp)}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Message</div>
+        <div class="detail-value message">${escapeHtml(request.message || 'No message provided')}</div>
+      </div>
+    `;
+
+    document.getElementById('detailsModal').classList.add('active');
+  };
+
+  window.closeModal = function() {
+    document.getElementById('detailsModal').classList.remove('active');
+  };
+
+  // Close modal when clicking outside
+  document.getElementById('detailsModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeModal();
+    }
+  });
 </script>
 
 </body>
